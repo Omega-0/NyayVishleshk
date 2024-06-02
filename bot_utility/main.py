@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings, HuggingFaceInstructEmbeddings
 from langchain.vectorstores import Chroma
@@ -108,7 +107,7 @@ def doc_to_string(doc):
     return refined_content
 
 def perform_vectorsearch(vectorstore,query):
-    doc = vectorstore.similarity_search(query)
+    doc = vectorstore.similarity_search(query,k=2)
     ref = doc_to_string(doc)        
     print("len of doc",len(doc))
     return ref
@@ -135,7 +134,7 @@ def handle_single_chat(user_ques, master_chain,ipc_vectorstore,bns_vectorstore):
             except Exception as e:
                 message_placeholder.markdown("Refreshing my memory..▌")
                 master_chain.memory.clear()
-                answer = "Please ask the question again."
+                answer = master_chain.predict(input = final_prompt)
 
             print(answer)
             for char in answer:
@@ -144,4 +143,7 @@ def handle_single_chat(user_ques, master_chain,ipc_vectorstore,bns_vectorstore):
                 time.sleep(0.005)
             message_placeholder.markdown(full_response)
 
-
+def init_chat():
+    init_message = """Hello! I am a helpful interactive assistant. My purpose is to provide clear and precise explanations of new laws, relating to the Bharatiya Nyaya Sanhita (BNS), 2023, and navigate its reforms which modernize India's criminal justice system for the digital age. I can also offer direct comparisons to previous legislation, including the Indian Penal Code (IPC). How may I assist you today?"""
+    with st.chat_message("assistant",avatar="⚖️"):
+        st.write(init_message)

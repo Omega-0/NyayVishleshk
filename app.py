@@ -3,7 +3,7 @@ import os
 from bot_utility.api_form import api_session_init, api_form
 from PIL import Image
 from bot_utility.htmlTemplates import *
-from bot_utility.main import get_page_wise_text_chunk,get_cache_vectorstore,handle_single_chat,get_conversation_Chain
+from bot_utility.main import get_page_wise_text_chunk,get_cache_vectorstore,handle_single_chat,get_conversation_Chain,init_chat
 from langchain.chat_models import AzureChatOpenAI
 
 if __name__=='__main__':
@@ -16,7 +16,6 @@ if __name__=='__main__':
 
         # Get the api credentials from user
         api_session_init()
-        
         os.environ["OPENAI_API_TYPE"] = st.session_state.type
         os.environ["OPENAI_API_VERSION"] = st.session_state.version
         os.environ["OPENAI_API_BASE"] = st.session_state.endpoint
@@ -66,13 +65,15 @@ if __name__=='__main__':
                 # add_vertical_space(1)
                 st.title("NyayVishleshak :red[न्यायविश्लेषक]")
                 st.subheader("Your bridge between IPC and BNS")
-        
+
+            st.divider()
         st.write(css, unsafe_allow_html=True)
 
-    #Main body
+    #API form
     if not st.session_state.form_flag:
         api_form()
 
+    #Main body
     elif st.session_state.form_flag:
         if st.session_state.executed:
             with st.spinner("Intiating Nyayvishlesk..."):
@@ -89,10 +90,14 @@ if __name__=='__main__':
                     # create conversation chain
                     llm = AzureChatOpenAI(deployment_name = st.session_state.model)
                     st.session_state.master_chain = get_conversation_Chain(llm)
+                
+                init_chat()
                     
             st.session_state.executed = False              
 
-        # st.markdown("## Chats 📝")
+        # user interaction
         user_question = st.chat_input("Please enter your question here...")                     
         if user_question:
             handle_single_chat(user_question,st.session_state.master_chain,st.session_state.ipc_vectorstore,st.session_state.bns_vectorstore)
+
+            
