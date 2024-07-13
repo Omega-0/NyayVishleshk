@@ -8,7 +8,7 @@ from langchain.chat_models import AzureChatOpenAI
 
 if __name__=='__main__':
 
-    # Head Layout
+    # Head Layout with relative path
     st.set_page_config(page_title="NyayVishleshak",
     page_icon=r".assests/balance.png",layout="wide")
     
