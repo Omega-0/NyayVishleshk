@@ -56,7 +56,7 @@ if __name__=='__main__':
         with st.container():
             col1,col2,col3=st.columns([0.1,0.8,0.1],gap="large")
             with col1:
-                logo_image = Image.open(r".assests\balance.png",formats=["png"])
+                logo_image = Image.open(r".assests/balance.png",formats=["png"])
                 resized_logo = logo_image.resize((100, 100))
                 # Get the dimensions of the logo image
                 logo_width, logo_height = resized_logo.size
@@ -80,8 +80,8 @@ if __name__=='__main__':
                 # get pdf text
                 if not hasattr(st.session_state,"vectorstore"): 
                     # get the text chunks
-                    ipc_chunks = get_page_wise_text_chunk("referrence_docs\IPC.txt")
-                    bns_chunks = get_page_wise_text_chunk("referrence_docs\Bharatiya_Nyaya_Sanhita.txt")
+                    ipc_chunks = get_page_wise_text_chunk("referrence_docs/IPC.txt")
+                    bns_chunks = get_page_wise_text_chunk("referrence_docs/Bharatiya_Nyaya_Sanhita.txt")
 
                     # create vector store
                     st.session_state.ipc_vectorstore = get_cache_vectorstore(ipc_chunks,"IPC_Vectorstore")
