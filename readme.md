@@ -54,11 +54,6 @@ These instructions will guide you through setting up and running NyayVishleshk o
 3. Interact with NyayVishleshk through the chat-like interface to understand BNS sections and compare them with IPC sections.
 
 
-### Example Interaction
-
-Here's a quick example of how NyayVishleshk works:
-
-
 ---
 
 Thank you for using NyayVishleshk!
